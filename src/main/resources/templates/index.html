@@ -1,8 +1,87 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Token Validator</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${appName + ' - ' + appEnv}">Math Calculator - dev</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%232196F3' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-2h2v2zm0-4h-2V7h2v6zm4 4h-2v-2h2v2zm0-4h-2V7h2v6z'/></svg>">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .section-title {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: white;
+            padding: 0 10px;
+            color: #666;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .app-title {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .app-title:hover {
+            color: #2196F3;
+        }
+        .env-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            color: white;
+            margin-bottom: 30px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .author-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            color: white;
+            margin-bottom: 30px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .version-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            color: white;
+            margin-bottom: 30px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .welcome-text {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+        }
         .status-button {
             padding: 20px 40px;
             font-size: 18px;
@@ -10,6 +89,7 @@
             border-radius: 5px;
             cursor: pointer;
             margin: 20px;
+            transition: all 0.3s ease;
         }
         .valid {
             background-color: #4CAF50;
@@ -19,13 +99,163 @@
             background-color: #f44336;
             color: white;
         }
+        .status-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .calculator-form {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .calculator-form input {
+            width: 100px;
+            padding: 8px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .calculator-form button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .calculator-form button:hover {
+            background-color: #1976D2;
+        }
+        .result {
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .result-value {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        .error-message {
+            color: #f44336;
+            font-size: 1.1em;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2196F3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .properties-link {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .properties-link:hover {
+            text-decoration: underline;
+        }
+        .response-time {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .result-container {
+            min-height: 60px;
+            margin-top: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div style="text-align: center; margin-top: 50px;">
-        <button th:class="${isValid ? 'status-button valid' : 'status-button invalid'}"
-                th:text="${isValid ? 'Token Valid - Connected' : 'Token Invalid - Disconnected'}">
-        </button>
+    <div class="container">
+        <h1 class="app-title"><span th:text="${appName}">Awesome App</span></h1>
+
+        <!-- Metadata Section -->
+        <div class="section">
+            <div class="section-title">Application Information</div>
+            <div class="env-badge" th:style="'background-color: ' + ${@colorService.getColorForEnv(appEnv)}" th:text="${'Env: ' + appEnv}">Env: dev</div>
+            <div class="author-badge" th:style="'background-color: ' + ${@colorService.getColorForAuthor(appAuthor)}">
+                <span>Author: </span><span th:text="${appAuthor}">Author Name</span>
+            </div>
+            <div class="version-badge" th:style="'background-color: ' + ${@colorService.getColorForVersion(appVersion)}" th:text="${'Version: ' + appVersion}">Version: 1.0.0</div>
+            <div class="welcome-section">
+                <p class="welcome-text">Welcome to our amazing token validation system! ✨</p>
+                <p class="welcome-text">Let's check if everything is working properly! 🔍</p>
+                <a href="/properties" class="properties-link">View Properties</a>
+            </div>
+        </div>
+
+        <!-- Token Status Section -->
+        <div class="section">
+            <div class="section-title">Connection Status</div>
+            <button th:class="${isValid ? 'status-button valid' : 'status-button invalid'}"
+                    th:text="${isValid ? 'Token Valid - Connected ✅' : 'Token Invalid - Disconnected ❌'}">
+            </button>
+        </div>
+
+        <!-- Calculator Section -->
+        <div class="section">
+            <div class="section-title">Factorial Calculator</div>
+            <div class="calculator-section">
+                <h2>Factorial Calculator</h2>
+                <form th:action="@{/factorial}" method="post" class="calculator-form">
+                    <input type="number" name="number" th:value="${num1}" required placeholder="Enter a number">
+                    <button type="submit">Calculate Factorial</button>
+                </form>
+                <div class="result-container">
+                    <div class="loading" id="loading">
+                        <div class="loading-spinner"></div>
+                        Calculating...
+                    </div>
+                    <div class="result" th:if="${result != null}" id="result">
+                        <span class="result-value" th:text="${num1 + '! = ' + result}">Result will appear here</span>
+                        <span class="response-time" th:text="${'Response time: ' + responseTime + 's'}">Response time: 0.000s</span>
+                    </div>
+                    <div class="error-message" th:if="${error != null}" id="error" th:text="${error}">Error message will appear here</div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            // Hide result and error while loading
+            const result = document.getElementById('result');
+            const error = document.getElementById('error');
+            if (result) result.style.display = 'none';
+            if (error) error.style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        // Show loading when form is submitted
+        document.querySelector('.calculator-form').addEventListener('submit', showLoading);
+
+        // Make title clickable
+        document.querySelector('.app-title').addEventListener('click', function() {
+            window.location.href = '/';
+        });
+    </script>
 </body>
 </html> 
