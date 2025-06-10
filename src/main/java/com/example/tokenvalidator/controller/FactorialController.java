@@ -77,10 +77,9 @@ public class FactorialController {
      * Displays the application properties page
      */
     @GetMapping("/properties")
-    public String showPropertiesPage(Model model) {
+    public String showProperties(Model model) {
         modelAttributeService.addApplicationAttributes(model);
         modelAttributeService.addPropertiesPageAttributes(model, responseTimeService);
-        
         return PROPERTIES_VIEW;
     }
     
@@ -130,31 +129,24 @@ public class FactorialController {
      * Performs the factorial calculation with response time tracking
      */
     private FactorialResult performFactorialCalculation(int number) throws InterruptedException {
-        double responseTime = calculateResponseTime();
-        
-        // Simulate processing time
+        double RECURSIVE_WAIT_TIME_SEC = 0.5; // 0.5 seconds
+
+        double responseTime = 0;
+        String strategyName = calculationService.getStrategyType();
+        if ("recursive".equalsIgnoreCase(strategyName)) {
+            responseTime = RECURSIVE_WAIT_TIME_SEC * (0.9 + Math.random() * 0.2); // Random between 90-110% of RECURSIVE_WAIT_TIME_SEC
+        } else {
+            responseTime = RECURSIVE_WAIT_TIME_SEC * (0.2 + Math.random() * 0.1); // Random between 20-30% of RECURSIVE_WAIT_TIME_SEC
+        }
+        logger.info("Strategy: {}, Time: {}s", strategyName, responseTime);
         TimeUnit.MILLISECONDS.sleep((long)(responseTime * 1000));
-        
-        // Record response time for statistics
-        responseTimeService.addResponseTime(responseTime);
         
         // Calculate factorial
         long factorialResult = calculationService.factorial(number);
         
         return new FactorialResult(factorialResult, responseTime);
     }
-    
-    /**
-     * Calculates response time based on CPU resources and adds randomness
-     */
-    private double calculateResponseTime() {
-        double baseTime = 2.0 / cpuResources;
-        double randomJitter = random.nextDouble() * 0.5;
-        double fixedOverhead = 0.01;
-        
-        return baseTime + randomJitter + fixedOverhead;
-    }
-    
+
     /**
      * Handles successful factorial calculation
      */
@@ -163,6 +155,9 @@ public class FactorialController {
         model.addAttribute(RESPONSE_TIME_ATTRIBUTE, String.format("%.3f", result.getResponseTime()));
         model.addAttribute(NUMBER_ATTRIBUTE, number);
         model.addAttribute(IS_VALID_ATTRIBUTE, true);
+        
+        // Add response time to the service for statistics
+        responseTimeService.addResponseTime(result.getResponseTime());
         
         return INDEX_VIEW;
     }

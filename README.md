@@ -41,6 +41,7 @@ sequenceDiagram
 | `app.author` | Application author | - | `APP_AUTHOR` | `John Doe` |
 | `app.version` | Application version | - | `APP_VERSION` | `1.0.0` |
 | `app.resources.cpu` | CPU resources for response time | `1` | `APP_RESOURCES_CPU` | `2`, `4`, `8` |
+| `app.factorial.strategy` | Factorial calculation strategy | `iterative` | `APP_FACTORIAL_STRATEGY` | `iterative`, `recursive` |
 | `app.env.tokens.dev` | Dev environment token | - | - | `dev-token-123` |
 | `app.env.tokens.tst` | Test environment token | - | - | `test-token-456` |
 | `app.env.tokens.acc` | Acceptance environment token | - | - | `acc-token-789` |

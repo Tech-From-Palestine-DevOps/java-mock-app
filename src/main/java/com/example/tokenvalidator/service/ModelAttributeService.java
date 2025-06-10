@@ -27,12 +27,16 @@ public class ModelAttributeService {
     @Value("${app.resources.cpu:1}")
     private int cpuResources;
     
+    @Value("${app.factorial.strategy:iterative}")
+    private String factorialStrategy;
+    
     // Attribute name constants for consistency
     private static final String APP_NAME_ATTR = "appName";
     private static final String APP_ENV_ATTR = "appEnv";
     private static final String APP_AUTHOR_ATTR = "appAuthor";
     private static final String APP_VERSION_ATTR = "appVersion";
     private static final String APP_RESOURCES_CPU_ATTR = "appResourcesCpu";
+    private static final String APP_FACTORIAL_STRATEGY_ATTR = "appFactorialStrategy";
     private static final String AVERAGE_RESPONSE_TIME_ATTR = "averageResponseTime";
     private static final String SAMPLE_COUNT_ATTR = "sampleCount";
     
@@ -45,14 +49,16 @@ public class ModelAttributeService {
         model.addAttribute(APP_ENV_ATTR, applicationEnvironment);
         model.addAttribute(APP_AUTHOR_ATTR, applicationAuthor);
         model.addAttribute(APP_VERSION_ATTR, applicationVersion);
+        model.addAttribute(APP_FACTORIAL_STRATEGY_ATTR, factorialStrategy);
     }
     
     /**
      * Adds specific attributes needed for the properties page.
-     * Includes CPU resources and response time statistics.
+     * Includes CPU resources, factorial strategy, and response time statistics.
      */
     public void addPropertiesPageAttributes(Model model, ResponseTimeService responseTimeService) {
         model.addAttribute(APP_RESOURCES_CPU_ATTR, cpuResources);
+        model.addAttribute(APP_FACTORIAL_STRATEGY_ATTR, factorialStrategy);
         model.addAttribute(AVERAGE_RESPONSE_TIME_ATTR, 
                           String.format("%.3f", responseTimeService.getAverageResponseTime()));
         model.addAttribute(SAMPLE_COUNT_ATTR, responseTimeService.getSampleCount());
@@ -77,5 +83,9 @@ public class ModelAttributeService {
     
     public int getCpuResources() {
         return cpuResources;
+    }
+    
+    public String getFactorialStrategy() {
+        return factorialStrategy;
     }
 } 

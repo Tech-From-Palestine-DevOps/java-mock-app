@@ -215,7 +215,7 @@
         <div class="section">
             <div class="section-title">Factorial Calculator</div>
             <div class="calculator-section">
-                <h2>Factorial Calculator</h2>
+                <h2>Factorial Calculator - <span th:text="${appFactorialStrategy}">iterative</span></h2>
                 <form th:action="@{/factorial}" method="post" class="calculator-form">
                     <input type="number" name="number" th:value="${num1}" required placeholder="Enter a number">
                     <button type="submit">Calculate Factorial</button>

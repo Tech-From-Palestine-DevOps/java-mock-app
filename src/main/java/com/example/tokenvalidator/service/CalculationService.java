@@ -1,116 +1,75 @@
 package com.example.tokenvalidator.service;
 
+import com.example.tokenvalidator.strategy.FactorialStrategy;
+import com.example.tokenvalidator.strategy.IterativeFactorialStrategy;
+import com.example.tokenvalidator.strategy.RecursiveFactorialStrategy;
+import com.example.tokenvalidator.util.LogCalcUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Map;
 
 /**
- * Service responsible for mathematical calculations.
- * Currently supports factorial calculations with proper validation and error handling.
+ * Service for mathematical calculations using strategy pattern.
  */
 @Service
 public class CalculationService {
     
     private static final Logger logger = LoggerFactory.getLogger(CalculationService.class);
     
-    // Constants for factorial calculation limits
-    private static final int MIN_FACTORIAL_INPUT = 0;
-    private static final int MAX_SAFE_FACTORIAL_INPUT = 20; // 21! exceeds long capacity
-    private static final long FACTORIAL_BASE_CASE = 1L;
+    private final FactorialStrategy iterativeStrategy;
+    private final FactorialStrategy recursiveStrategy;
     
-    // Error messages
-    private static final String NEGATIVE_NUMBER_ERROR = "Factorial is not defined for negative numbers";
-    private static final String NUMBER_TOO_LARGE_ERROR = "Number too large for factorial calculation (max %d)";
+    @Value("${app.factorial.strategy:iterative}")
+    private String strategyType;
+    
+    public CalculationService(IterativeFactorialStrategy iterativeStrategy, 
+                            RecursiveFactorialStrategy recursiveStrategy) {
+        this.iterativeStrategy = iterativeStrategy;
+        this.recursiveStrategy = recursiveStrategy;
+    }
     
     /**
-     * Calculates the factorial of a given number using recursive approach.
+     * Calculates factorial using the configured strategy.
      * 
-     * @param number The number to calculate factorial for (must be 0-20)
+     * @param number The number to calculate factorial for
      * @return The factorial result
-     * @throws IllegalArgumentException if number is negative or greater than 20
+     * @throws InterruptedException if the calculation is interrupted
      */
-    public long factorial(int number) {
-        validateFactorialInput(number);
-        
+    public long factorial(int number) throws InterruptedException {
         logger.debug("Calculating factorial for number: {}", number);
         
-        long result = calculateFactorialRecursively(number);
+        Map<String, FactorialStrategy> strategies = Map.of(
+            "recursive", recursiveStrategy,
+            "iterative", iterativeStrategy
+        );
+        FactorialStrategy strategy = strategies.get(strategyType);
+
+        LogCalcUtil.logCalc(strategyType, number);
         
-        logger.debug("Factorial calculation completed: {}! = {}", number, result);
-        
-        return result;
-    }
-    
-    /**
-     * Alternative iterative factorial calculation method.
-     * More memory efficient for larger numbers within the safe range.
-     * 
-     * @param number The number to calculate factorial for
-     * @return The factorial result
-     */
-    public long factorialIterative(int number) {
-        validateFactorialInput(number);
-        
-        if (number <= 1) {
-            return FACTORIAL_BASE_CASE;
-        }
-        
-        long result = FACTORIAL_BASE_CASE;
-        for (int i = 2; i <= number; i++) {
-            result *= i;
-        }
-        
-        return result;
-    }
-    
-    /**
-     * Validates input for factorial calculation.
-     * 
-     * @param number The number to validate
-     * @throws IllegalArgumentException if number is invalid
-     */
-    private void validateFactorialInput(int number) {
-        if (number < MIN_FACTORIAL_INPUT) {
-            throw new IllegalArgumentException(NEGATIVE_NUMBER_ERROR);
-        }
-        
-        if (number > MAX_SAFE_FACTORIAL_INPUT) {
-            throw new IllegalArgumentException(
-                String.format(NUMBER_TOO_LARGE_ERROR, MAX_SAFE_FACTORIAL_INPUT)
-            );
-        }
-    }
-    
-    /**
-     * Recursive implementation of factorial calculation.
-     * 
-     * @param number The number to calculate factorial for
-     * @return The factorial result
-     */
-    private long calculateFactorialRecursively(int number) {
-        if (number <= 1) {
-            return FACTORIAL_BASE_CASE;
-        }
-        
-        return number * calculateFactorialRecursively(number - 1);
+        return strategy.calculate(number);
     }
     
     /**
      * Gets the maximum safe input for factorial calculation.
-     * 
-     * @return The maximum safe input value
      */
     public int getMaxSafeFactorialInput() {
-        return MAX_SAFE_FACTORIAL_INPUT;
+        return 20;
     }
     
     /**
      * Checks if a number is valid for factorial calculation.
-     * 
-     * @param number The number to check
-     * @return true if the number is valid, false otherwise
      */
     public boolean isValidFactorialInput(int number) {
-        return number >= MIN_FACTORIAL_INPUT && number <= MAX_SAFE_FACTORIAL_INPUT;
+        return number >= 0 && number <= 20;
+    }
+
+    /**
+     * Gets the current strategy type being used.
+     * @return The strategy type (iterative or recursive)
+     */
+    public String getStrategyType() {
+        return strategyType;
     }
 } 
