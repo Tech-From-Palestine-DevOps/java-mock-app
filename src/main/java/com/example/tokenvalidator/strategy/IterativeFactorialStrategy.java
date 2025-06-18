@@ -11,7 +11,7 @@ public class IterativeFactorialStrategy implements FactorialStrategy {
     
     @Override
     public long calculate(int number) throws InterruptedException {
-        FactorialValidator.validate(number);
+        // FactorialValidator.validate(number);
         
         if (number <= 1) {
             return 1;
