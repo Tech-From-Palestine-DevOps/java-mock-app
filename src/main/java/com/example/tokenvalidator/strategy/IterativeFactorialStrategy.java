@@ -1,27 +1,24 @@
-package com.example.tokenvalidator.strategy;
+// package com.example.tokenvalidator.strategy;
 
-import com.example.tokenvalidator.util.FactorialValidator;
-import org.springframework.stereotype.Component;
+// import org.springframework.stereotype.Component;
 
-/**
- * Iterative factorial calculation using a simple loop.
- */
-@Component
-public class IterativeFactorialStrategy implements FactorialStrategy {
+// /**
+//  * Iterative factorial calculation using a simple loop.
+//  */
+// @Component
+// public class IterativeFactorialStrategy implements FactorialStrategy {
     
-    @Override
-    public long calculate(int number) throws InterruptedException {
-        // FactorialValidator.validate(number);
+//     @Override
+//     public long calculate(int number) throws InterruptedException {        
+//         if (number <= 1) {
+//             return 1;
+//         }
         
-        if (number <= 1) {
-            return 1;
-        }
+//         long result = 1;
+//         for (int i = 2; i <= number; i++) {
+//             result *= i;
+//         }
         
-        long result = 1;
-        for (int i = 2; i <= number; i++) {
-            result *= i;
-        }
-        
-        return result;
-    }
-} 
+//         return result;
+//     }
+// } 

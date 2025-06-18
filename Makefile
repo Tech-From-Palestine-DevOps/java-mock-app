@@ -38,7 +38,7 @@ checkstyle-report:
 # Run security scan (custom scanner)
 security:
 	@echo "Running custom security scan..."
-	./security-scanner.sh
+	./scripts/security-scanner.sh
 
 # Run security scan with pretty output
 security-report: security
