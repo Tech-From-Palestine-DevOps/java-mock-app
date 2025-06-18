@@ -23,6 +23,10 @@ count=0
 # Process findings
 while IFS=: read -r file line_num line_content; do
     if [ -n "$file" ] && [ -n "$line_num" ] && [ -n "$line_content" ]; then
+        # Skip if value is only an environment variable reference (e.g., ${APP_TOKEN})
+        if [[ "$line_content" =~ =\$\{[A-Za-z0-9_]+\}$ ]]; then
+            continue
+        fi
         # Add comma if not first
         if [ $count -gt 0 ]; then
             echo "," >> "$OUTPUT_FILE"

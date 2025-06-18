@@ -46,9 +46,11 @@ public class CalculationService {
         );
         FactorialStrategy strategy = strategies.get(strategyType);
 
+        long result = strategy.calculate(number);
+
         LogCalcUtil.logCalc(strategyType, number);
         
-        return strategy.calculate(number);
+        return result;
     }
     
     /**
