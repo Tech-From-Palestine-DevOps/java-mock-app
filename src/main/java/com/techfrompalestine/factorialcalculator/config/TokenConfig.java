@@ -1,4 +1,4 @@
-package com.example.tokenvalidator.config;
+package com.techfrompalestine.factorialcalculator.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +11,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Configuration class responsible for token validation across different environments.
+ * Configuration class responsible for connection validation across different environments.
  * 
- * This class maintains environment-specific tokens and provides validation logic
+ * This class maintains environment-specific connection tokens and provides validation logic
  * to ensure secure access to the application based on the current environment.
  */
 @Configuration
@@ -85,17 +85,17 @@ public class TokenConfig {
      * Logs the current configuration status.
      */
     private void logConfigurationStatus() {
-        logger.info("=== Token Configuration Initialized ===");
+        logger.info("=== Connection Configuration Initialized ===");
         logger.info("Current Environment: '{}'", currentEnvironment);
         logger.info("Supported Environments: {}", SUPPORTED_ENVIRONMENTS);
-        logger.info("Token validation ready");
+        logger.info("Connection validation ready");
         logger.info("=======================================");
     }
     
     /**
      * Validates the configured token against the expected token for the current environment.
      * 
-     * @return true if the token is valid, false otherwise
+     * @return true if the connection is valid, false otherwise
      */
     public boolean isTokenValid() {
         try {
@@ -104,13 +104,13 @@ public class TokenConfig {
             
             boolean isValid = expectedToken.equals(actualToken);
             
-            logger.debug("Token validation for environment '{}': {}", currentEnvironment, 
+            logger.debug("Connection validation for environment '{}': {}", currentEnvironment, 
                         isValid ? "VALID" : "INVALID");
             
             return isValid;
             
         } catch (Exception e) {
-            logger.error("Token validation failed for environment '{}': {}", 
+            logger.error("Connection validation failed for environment '{}': {}", 
                         currentEnvironment, e.getMessage());
             return false;
         }
@@ -201,7 +201,7 @@ public class TokenConfig {
     }
     
     /**
-     * Checks if a specific environment is supported.
+     * Checks if a given environment is supported.
      * 
      * @param environment The environment to check
      * @return true if the environment is supported, false otherwise

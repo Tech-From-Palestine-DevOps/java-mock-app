@@ -1,4 +1,4 @@
-package com.example.tokenvalidator.service;
+package com.techfrompalestine.factorialcalculator.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

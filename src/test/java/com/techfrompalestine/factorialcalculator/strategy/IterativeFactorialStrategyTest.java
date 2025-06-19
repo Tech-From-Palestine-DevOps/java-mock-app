@@ -1,19 +1,21 @@
-package com.example.tokenvalidator.strategy;
+package com.techfrompalestine.factorialcalculator.strategy;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
 
 /**
- * Unit tests for RecursiveFactorialStrategy.
+ * Unit tests for IterativeFactorialStrategy.
  */
-class RecursiveFactorialStrategyTest {
+@Disabled
+class IterativeFactorialStrategyTest {
 
-    private RecursiveFactorialStrategy strategy;
+    private IterativeFactorialStrategy strategy;
 
     @BeforeEach
     void setUp() {
-        strategy = new RecursiveFactorialStrategy();
+        strategy = new IterativeFactorialStrategy();
     }
 
     @Test

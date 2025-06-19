@@ -1,6 +1,6 @@
 # Factorial Calculator
 
-A Spring Boot application that performs factorial calculations with response time tracking and environment-specific configurations. The application includes token validation for secure access and provides real-time performance metrics.
+A Spring Boot application that performs factorial calculations with response time tracking and environment-specific configurations. The application provides real-time performance metrics and a modern web interface.
 
 ![main_gif](./docs/gif/main.gif)
 
@@ -17,14 +17,14 @@ sequenceDiagram
     Browser-->>User: Displays Calculator UI
 
     User->>Browser: Enter numbers, click "Calculate"
-    Browser->>Server: Send numbers + token (POST /calculate)
+    Browser->>Server: Send numbers (POST /factorial)
 
-    %% Server checks the token
-    alt Token is valid
+    %% Server processes the calculation
+    alt Connection is valid
         Server-->>Browser: Responds with result (new HTML with answer)
         Browser-->>User: Shows calculation result
-    else Token is invalid
-        Server-->>Browser: Responds with error ("Invalid token")
+    else Connection is invalid
+        Server-->>Browser: Responds with error ("Connection invalid")
         Browser-->>User: Shows error message
     end
 
@@ -58,7 +58,7 @@ mvn test
 mvn verify
 
 # Run specific test
-mvn test -Dtest=TokenConfigTest
+mvn test -Dtest=TokenConfigIT
 ```
 
 ## Features
@@ -66,7 +66,7 @@ mvn test -Dtest=TokenConfigTest
 - Fast factorial calculations (up to 20!)
 - Response time tracking and performance metrics
 - Environment-specific configurations
-- Secure access with token validation
+- Modern Material Design interface
 - Memory-optimized (200MB limit)
 
 ## Requirements
@@ -82,7 +82,7 @@ mvn test -Dtest=TokenConfigTest
 mvn clean package
 
 # Run
-java -Xmx200m -Xms200m -jar target/tokenvalidator-0.0.1-SNAPSHOT.jar
+java -Xmx200m -Xms200m -jar target/factorial-calculator-0.0.1-SNAPSHOT.jar
 # or
 mvn spring-boot:run
 ```
@@ -91,16 +91,33 @@ Note: Environment variables take precedence over properties file values.
 
 ## Project Structure
 
-- `src/main/java/com/example/tokenvalidator/`
-  - `config/TokenConfig.java` - Token configuration and validation logic
-  - `controller/TokenController.java` - Web controller for token validation
-  - `TokenValidatorApplication.java` - Main application class
+- `src/main/java/com/techfrompalestine/factorialcalculator/`
+  - `config/TokenConfig.java` - Connection configuration and validation logic
+  - `controller/FactorialController.java` - Web controller for factorial calculations
+  - `service/` - Business logic services
+    - `CalculationService.java` - Factorial calculation service
+    - `ColorService.java` - Material Design color generation
+    - `ResponseTimeService.java` - Performance tracking
+    - `ModelAttributeService.java` - View model management
+  - `strategy/` - Factorial calculation strategies
+    - `FactorialStrategy.java` - Strategy interface
+    - `IterativeFactorialStrategy.java` - Iterative implementation
+    - `RecursiveFactorialStrategy.java` - Recursive implementation
+  - `util/` - Utility classes
+    - `FactorialValidator.java` - Input validation
+    - `LogCalcUtil.java` - Calculation logging
+  - `FactorialCalculatorApplication.java` - Main application class
 - `src/main/resources/`
   - `application.properties` - Application configuration
   - `templates/index.html` - Web interface
 - `src/test/` - Unit tests
-6cs
-   - Environment status
+
+## Features
+
+- Factorial calculations with iterative and recursive strategies
+- Response time tracking
+- Environment status
+- Material Design UI
 
 ## License
 

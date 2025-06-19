@@ -1,4 +1,4 @@
-package com.example.tokenvalidator.controller;
+package com.techfrompalestine.factorialcalculator.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,18 +7,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.tokenvalidator.config.TokenConfig;
-import com.example.tokenvalidator.service.CalculationService;
-import com.example.tokenvalidator.service.ColorService;
-import com.example.tokenvalidator.service.ResponseTimeService;
-import com.example.tokenvalidator.service.ModelAttributeService;
+import com.techfrompalestine.factorialcalculator.config.TokenConfig;
+import com.techfrompalestine.factorialcalculator.service.CalculationService;
+import com.techfrompalestine.factorialcalculator.service.ColorService;
+import com.techfrompalestine.factorialcalculator.service.ResponseTimeService;
+import com.techfrompalestine.factorialcalculator.service.ModelAttributeService;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Random;
 
 /**
- * Main controller for handling factorial calculations and token validation.
+ * Main controller for handling factorial calculations and connection validation.
  * Provides endpoints for the main page, properties page, and factorial calculations.
  */
 @Controller
@@ -61,7 +61,7 @@ public class FactorialController {
     }
     
     /**
-     * Displays the main page with token validation status
+     * Displays the main page with connection status
      */
     @GetMapping("/")
     public String showMainPage(Model model) {
@@ -110,17 +110,17 @@ public class FactorialController {
     }
     
     /**
-     * Checks if the current token is valid
+     * Checks if the current connection is valid
      */
     private boolean isTokenValid() {
         return tokenConfig.isTokenValid();
     }
     
     /**
-     * Handles the case when token is invalid
+     * Handles the case when connection is invalid
      */
     private String handleInvalidToken(Model model) {
-        model.addAttribute(ERROR_ATTRIBUTE, "Token invalid - Cannot perform calculation");
+        model.addAttribute(ERROR_ATTRIBUTE, "Connection invalid - Cannot perform calculation");
         model.addAttribute(IS_VALID_ATTRIBUTE, false);
         return INDEX_VIEW;
     }

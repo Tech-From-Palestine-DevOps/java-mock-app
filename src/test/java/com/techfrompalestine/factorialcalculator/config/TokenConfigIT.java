@@ -1,4 +1,4 @@
-package com.example.tokenvalidator.config;
+package com.techfrompalestine.factorialcalculator.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

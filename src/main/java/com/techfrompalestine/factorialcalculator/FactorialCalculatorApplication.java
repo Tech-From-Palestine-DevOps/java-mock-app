@@ -1,4 +1,4 @@
-package com.example.tokenvalidator;
+package com.techfrompalestine.factorialcalculator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 @SpringBootApplication
-public class TokenValidatorApplication {
+public class FactorialCalculatorApplication {
     
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -34,6 +34,6 @@ public class TokenValidatorApplication {
 
     public static void main(String[] args) {
         System.setProperty("file.encoding", StandardCharsets.UTF_8.name());
-        SpringApplication.run(TokenValidatorApplication.class, args);
+        SpringApplication.run(FactorialCalculatorApplication.class, args);
     }
 } 

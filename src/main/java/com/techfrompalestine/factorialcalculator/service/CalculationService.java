@@ -1,9 +1,9 @@
-package com.example.tokenvalidator.service;
+package com.techfrompalestine.factorialcalculator.service;
 
-import com.example.tokenvalidator.strategy.FactorialStrategy;
-import com.example.tokenvalidator.strategy.IterativeFactorialStrategy;
-import com.example.tokenvalidator.strategy.RecursiveFactorialStrategy;
-import com.example.tokenvalidator.util.LogCalcUtil;
+import com.techfrompalestine.factorialcalculator.strategy.FactorialStrategy;
+import com.techfrompalestine.factorialcalculator.strategy.IterativeFactorialStrategy;
+import com.techfrompalestine.factorialcalculator.strategy.RecursiveFactorialStrategy;
+import com.techfrompalestine.factorialcalculator.util.LogCalcUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;

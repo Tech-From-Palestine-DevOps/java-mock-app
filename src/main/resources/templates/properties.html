@@ -6,109 +6,209 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${appName + ' - Properties'}">Application Properties</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%232196F3' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-2h2v2zm0-4h-2V7h2v6zm4 4h-2v-2h2v2zm0-4h-2V7h2v6z'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
+        * {
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+            color: #212121;
+            line-height: 1.6;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 24px;
         }
-        .section {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .section-title {
-            position: absolute;
-            top: -12px;
-            left: 20px;
-            background-color: white;
-            padding: 0 10px;
-            color: #666;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        .app-title {
-            font-size: 2.5em;
-            color: #333;
-            margin-bottom: 20px;
+        
+        .app-header {
             text-align: center;
-            cursor: pointer;
+            margin-bottom: 32px;
         }
+        
+        .app-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #212121;
+            margin: 0 0 16px 0;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
         .app-title:hover {
             color: #2196F3;
         }
+        
+        .app-subtitle {
+            font-size: 1.1rem;
+            color: #757575;
+            font-weight: 400;
+            margin: 0;
+        }
+        
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #212121;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .material-icons {
+            font-size: 1.5rem;
+            color: #757575;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 24px;
+        }
+        
+        .back-link:hover {
+            background-color: rgba(33, 150, 243, 0.1);
+        }
+        
+        .performance-stats {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-label {
+            font-weight: 500;
+            color: #1976d2;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stat-value {
+            color: #424242;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.875rem;
+        }
+        
         .properties-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
+        
         .properties-table th,
         .properties-table td {
-            padding: 12px;
+            padding: 16px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e0e0e0;
         }
+        
         .properties-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            color: #333;
-        }
-        .properties-table tr:hover {
             background-color: #f5f5f5;
+            font-weight: 500;
+            color: #212121;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .back-link {
-            display: inline-block;
-            margin: 20px 0;
-            color: #2196F3;
-            text-decoration: none;
-            font-weight: bold;
+        
+        .properties-table tr:hover {
+            background-color: #fafafa;
         }
-        .back-link:hover {
-            text-decoration: underline;
+        
+        .properties-table tr:last-child td {
+            border-bottom: none;
         }
+        
         .property-value {
-            font-family: monospace;
-            background-color: #f8f9fa;
-            padding: 2px 6px;
+            font-family: 'Roboto Mono', monospace;
+            background-color: #f5f5f5;
+            padding: 4px 8px;
             border-radius: 4px;
+            font-size: 0.875rem;
+            color: #424242;
         }
-        .performance-stats {
-            margin: 15px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            border-left: 4px solid #2196F3;
+        
+        .property-label {
+            font-weight: 500;
+            color: #212121;
         }
-        .stat-label {
-            font-weight: bold;
-            color: #333;
-        }
-        .stat-value {
-            color: #666;
-            font-family: monospace;
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .app-title {
+                font-size: 2rem;
+            }
+            
+            .properties-table {
+                font-size: 0.875rem;
+            }
+            
+            .properties-table th,
+            .properties-table td {
+                padding: 12px 8px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="app-title"><span th:text="${appName}">Factorial Calculator</span></h1>
+        <div class="app-header">
+            <h1 class="app-title"><span th:text="${appName}">Factorial Calculator</span></h1>
+            <p class="app-subtitle">Application Properties & Configuration</p>
+        </div>
         
-        <a href="/" class="back-link">← Back to Main Page</a>
+        <a href="/" class="back-link">
+            <span class="material-icons">arrow_back</span>
+            Back to Main Page
+        </a>
 
-        <div class="section">
-            <div class="section-title">Application Properties</div>
+        <div class="card">
+            <h2 class="card-title">
+                <span class="material-icons">settings</span>
+                Application Properties
+            </h2>
             
             <!-- Performance Statistics -->
             <div class="performance-stats">
-                <div class="stat-label">Performance Statistics</div>
+                <div class="stat-label">
+                    <span class="material-icons">speed</span>
+                    Performance Statistics
+                </div>
                 <div class="stat-value" th:text="${'Average response time: ' + averageResponseTime + 's (based on ' + sampleCount + ' samples)'}">
                     Average response time: 0.000s (based on 0 samples)
                 </div>
@@ -124,27 +224,27 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Application Name</td>
+                        <td class="property-label">Application Name</td>
                         <td><span class="property-value" th:text="${appName}">Factorial Calculator</span></td>
                     </tr>
                     <tr>
-                        <td>Environment</td>
+                        <td class="property-label">Environment</td>
                         <td><span class="property-value" th:text="${appEnv}">dev</span></td>
                     </tr>
                     <tr>
-                        <td>Author</td>
+                        <td class="property-label">Author</td>
                         <td><span class="property-value" th:text="${appAuthor}">Author Name</span></td>
                     </tr>
                     <tr>
-                        <td>Version</td>
+                        <td class="property-label">Version</td>
                         <td><span class="property-value" th:text="${appVersion}">1.0.0</span></td>
                     </tr>
                     <tr>
-                        <td>CPU Resources</td>
+                        <td class="property-label">CPU Resources</td>
                         <td><span class="property-value" th:text="${appResourcesCpu}">2</span></td>
                     </tr>
                     <tr>
-                        <td>Factorial Strategy</td>
+                        <td class="property-label">Factorial Strategy</td>
                         <td><span class="property-value" th:text="${appFactorialStrategy}">iterative</span></td>
                     </tr>
                 </tbody>
