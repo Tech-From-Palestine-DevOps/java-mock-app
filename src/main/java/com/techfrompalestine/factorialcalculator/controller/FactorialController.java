@@ -9,13 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.techfrompalestine.factorialcalculator.config.TokenConfig;
 import com.techfrompalestine.factorialcalculator.service.CalculationService;
-import com.techfrompalestine.factorialcalculator.service.ColorService;
 import com.techfrompalestine.factorialcalculator.service.ResponseTimeService;
 import com.techfrompalestine.factorialcalculator.service.ModelAttributeService;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.Random;
 
 /**
  * Main controller for handling factorial calculations and connection validation.
@@ -39,7 +37,6 @@ public class FactorialController {
     private final CalculationService calculationService;
     private final ResponseTimeService responseTimeService;
     private final ModelAttributeService modelAttributeService;
-    private final Random random;
     
     @Value("${app.resources.cpu:1}")
     private int cpuResources;
@@ -57,7 +54,6 @@ public class FactorialController {
         this.calculationService = calculationService;
         this.responseTimeService = responseTimeService;
         this.modelAttributeService = modelAttributeService;
-        this.random = new Random();
     }
     
     /**
