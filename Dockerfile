@@ -1,6 +1,6 @@
 # Stage 1: Build with Maven
 FROM maven:3.8.6-eclipse-temurin-17-alpine AS builder
-
+# create a folder in the container
 WORKDIR /app
 COPY pom.xml .
 # Leverage Docker cache by downloading dependencies first
