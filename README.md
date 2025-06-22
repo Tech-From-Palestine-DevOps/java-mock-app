@@ -1,4 +1,4 @@
-# Factorial Calculator
+# Factorial Calculator for workshop
 
 A Spring Boot application that performs factorial calculations with response time tracking and environment-specific configurations. The application provides real-time performance metrics and a modern web interface.
 
