@@ -1,0 +1,42 @@
+name: Build and Unit Test with Makefile
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run make clean
+        run: make clean
+
+      - name: Run unit tests
+        run: make unit
+
+      - name: Generate Surefire report
+        run: make surefire-report
+
+      - name: Run Checkstyle
+        run: make checkstyle
+
+      - name: Run Security Scan
+        run: make security
