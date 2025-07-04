@@ -20,7 +20,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build and Push to GHCR
         uses: docker/build-push-action@v5
@@ -28,3 +28,11 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/tech-from-palestine-devops/java-mock-app:latest
+
+      # - name: Build and tag image
+      #   run: |
+      #     COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
+      #     docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:$COMMIT_SHA .    
+
+      # - name: Push image to GHCR
+      #   run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:$COMMIT_SHA
