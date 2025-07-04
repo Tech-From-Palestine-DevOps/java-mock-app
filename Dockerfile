@@ -1,5 +1,5 @@
 # Stage 1: Build with Maven
-FROM maven:3.8.6-eclipse-temurin-17-alpine AS builder
+FROM maven:3.8.6-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /app
 COPY pom.xml .
@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Runtime image
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
